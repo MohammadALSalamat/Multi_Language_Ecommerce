@@ -142,8 +142,8 @@
                                         </form>
 
                                         <ul class="nav nav-tabs">
-                                            @isset($Current_info_Section -> categories)
-                                                @foreach($Current_info_Section -> categories  as $index =>  $translation)
+                                            @isset($Current_info_Section -> OtherLanguges)
+                                                @foreach($Current_info_Section -> OtherLanguges  as $index =>  $translation)
                                                     <li class="nav-item">
                                                         <a class="nav-link @if($index ==  0) active @endif  " id="homeLable-tab"  data-toggle="tab"
                                                            href="#homeLable{{$index}}" aria-controls="homeLable"
@@ -155,15 +155,15 @@
                                         </ul>
                                         <div class="tab-content px-1 pt-1">
 
-                                            @isset($Current_info_Section -> categories)
-                                                @foreach($Current_info_Section -> categories as $index =>  $translation)
+                                            @isset($Current_info_Section -> OtherLanguges)
+                                                @foreach($Current_info_Section -> OtherLanguges as $index =>  $translation)
 
                                                 <div role="tabpanel" class="tab-pane  @if($index ==  0) active  @endif  " id="homeLable{{$index}}"
                                                  aria-labelledby="homeLable-tab"
                                                  aria-expanded="{{$index ==  0 ? 'true' : 'false'}}">
 
                                                 <form class="form"
-                                                      action="{{route('admin.maincategories.update',$translation -> id)}}"
+                                                      action="{{route('Update_MainCategory_OtherLanguages',$translation -> id)}}"
                                                       method="POST"
                                                       enctype="multipart/form-data">
                                                     @csrf
@@ -173,7 +173,7 @@
 
                                                     <div class="form-body">
 
-                                                        <h4 class="form-section"><i class="ft-home"></i> بيانات القسم </h4>
+                                                        <h4 class="form-section"><i class="ft-home"></i>  اللغة الفرعية :بيانات القسم </h4>
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <div class="form-group">

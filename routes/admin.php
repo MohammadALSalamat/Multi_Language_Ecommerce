@@ -42,6 +42,8 @@ Route::group(['middleware' => ['admin']], function () {
         Route::post('/Store', [MainCategoryController::class, 'StoreMainCategory'])->name('Store_MainCategory');
         Route::match(['post', 'get'], '/edit/{id}', [MainCategoryController::class, 'EditMainCategory'])->name('Edit_MainCategory');
         Route::match(['post', 'get'], '/update/{id}', [MainCategoryController::class, 'UpdateMainCategory'])->name('Update_MainCategory');
+        Route::match(['post', 'get'], '/update_otherLanguages/{id}', [MainCategoryController::class, 'updateotherLanguages'])->name('Update_MainCategory_OtherLanguages');
+        Route::match(['post', 'get'], '/Activate/{id}', [MainCategoryController::class, '_Directe_Activate'])->name('Activate');
         Route::match(['post', 'get'], '/delete/{id}', [MainCategoryController::class, 'DeleteMainCategory'])->name('Delete_MainCategory');
     });
 

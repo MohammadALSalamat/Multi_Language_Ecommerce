@@ -38,6 +38,6 @@ class MainCategory extends Model
 
     public function OtherLanguges()
     {
-        $this->hasMany([MainCategory::class, 'translation_lang']);
+        return $this->hasMany(self::class, 'translation_of');
     }
 }

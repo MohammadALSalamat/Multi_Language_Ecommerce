@@ -109,44 +109,104 @@ class MainCategoryController extends Controller
     // eidt the categories
     public function EditMainCategory($id)
     {
-        $Current_info_Section = MainCategory::with('OtherLanguges')->where('id', $id)->get();
-        dd($Current_info_Section);
+        $check_id = MainCategory::find($id);
+        if (!$check_id) {
+            return redirect()->back()->with('error', 'العنصر غير موجود اعد المحاولة ');
+        }
+        // get the defualt language with other languages using relations in models
+        $Current_info_Section = MainCategory::with('OtherLanguges')->where('id', $id)->first();
         return view('admin.maincategories.edit', compact('Current_info_Section'));
     }
 
 
     public function UpdateMainCategory(MainCategoryValidation $request, $id)
     {
-
-        $data = $request->all();
-        dd($data);
-        if ($request->isMethod('post')) {
-            if (empty($data['active'])) {
-                $status = 0;
-            } else {
-                $status = 1;
-            }
-            if (is_numeric($data['name']) || is_numeric($data['abbr'])) {
-                return redirect()->back()->with('error')->with('error', "هناك خطا بادخال الاسم او الاختصار يرجى التاكد ");;
-            }
-            MainCategory::where('id', $id)->update([
-                'name' => $data['name'],
-                'abbr' => $data['abbr'],
-                'direction' => $data['direction'],
-                'active' => $status,
-            ]);
-            return redirect()->route('show_Languages')->with('success', "تم التعديل بنجاح");
+        $check_id = MainCategory::find($id);
+        if (!$check_id) {
+            return redirect()->back()->with('error', 'العنصر غير موجود اعد المحاولة ');
         }
+        // check on Photo if we have new one or same as old one
+        // save image
+        $data = $request->all();
+        if (!empty($data['photo'])) {
+            if ($request->hasFile('photo')) {
+                $photo_temp = $request->file('photo');
+                if ($photo_temp->isValid()) {
+                    $extention = $photo_temp->clientExtension();
+                    $filename = rand(1, 10000000) . '.' . $extention;
+                    $image_path = 'assets/images/maincategories/' . $filename;
+                    Image::make($photo_temp)->save($image_path);
+                }
+            } else {
+                return redirect()->back()->with('error', "الصورة خاطئة اعد المحاولة");
+            }
+        } else {
+            $filename = $data['Current_image'];
+        }
+        //get the what is inside the category array
+        $category = array_values($request->category)[0];
+        if (empty($category['active'])) {
+            $status = 0;
+        } else {
+            $status = 1;
+        };
+        //update files
+        MainCategory::where('id', $id)->update([
+            'photo' => $filename,
+            'name' => $category['name'],
+            'translation_lang' => $category['abbr'],
+            'active' => $status,
+        ]);
+        return redirect()->route('show_MainCategory')->with('success', "تم التعديل بنجاح");
+    }
+    // direcate activate
+    public function _Directe_Activate($id)
+    {
+        $active = MainCategory::where('id', $id)->first();
+        if ($active->active == 1) {
+
+            MainCategory::where('id', $id)->update([
+                'active' => 0
+            ]);
+            return redirect()->route('show_MainCategory')->with('success', "تم الغاء التفغيل بنجاح");
+        } else {
+            MainCategory::where('id', $id)->update([
+                'active' => 1
+            ]);
+            return redirect()->route('show_MainCategory')->with('success', "تم  التفغيل بنجاح");
+        };
+    }
+
+    public function updateotherLanguages(MainCategoryValidation $request, $id)
+    {
+        $check_id = MainCategory::find($id);
+        if (!$check_id) {
+            return redirect()->back()->with('error', 'العنصر غير موجود اعد المحاولة ');
+        }
+        //get the what is inside the category array
+        $category = array_values($request->category)[0];
+        if (empty($category['active'])) {
+            $status = 0;
+        } else {
+            $status = 1;
+        };
+        //update files
+        MainCategory::where('id', $id)->update([
+            'name' => $category['name'],
+            'translation_lang' => $category['abbr'],
+            'active' => $status,
+        ]);
+        return redirect()->route('show_MainCategory')->with('success', "تم تعديل اللغة الفرعية بنجاح");
     }
     // delete main caregory
-    public function DeleteLanguage($id)
+    public function DeleteMainCategory($id)
     {
-        $lanaguge = MainCategory::find($id);
-        if (!$lanaguge) {
+        $Delet_category = MainCategory::find($id);
+        if (!$Delet_category) {
             return redirect()->back()->with('error', 'هذه اللغة غير موجوده');
         } else {
             MainCategory::where('id', $id)->delete();
-            return redirect()->route('show_Languages')->with('success', 'تم الحذف بنجاح');
+            return redirect()->route('show_MainCategory')->with('success', 'تم الحذف بنجاح');
         }
     }
 }
