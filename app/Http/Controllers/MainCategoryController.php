@@ -160,7 +160,7 @@ class MainCategoryController extends Controller
         return redirect()->route('show_MainCategory')->with('success', "تم التعديل بنجاح");
     }
     // direcate activate
-    public function _Directe_Activate($id)
+    public function Directe_Activate($id)
     {
         $active = MainCategory::where('id', $id)->first();
         if ($active->active == 1) {

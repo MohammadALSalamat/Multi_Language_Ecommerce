@@ -1,9 +1,10 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\VendorController;
 use App\Http\Controllers\LanguagesController;
 use App\Http\Controllers\MainCategoryController;
-use Illuminate\Support\Facades\Route;
 
 
 
@@ -43,11 +44,23 @@ Route::group(['middleware' => ['admin']], function () {
         Route::match(['post', 'get'], '/edit/{id}', [MainCategoryController::class, 'EditMainCategory'])->name('Edit_MainCategory');
         Route::match(['post', 'get'], '/update/{id}', [MainCategoryController::class, 'UpdateMainCategory'])->name('Update_MainCategory');
         Route::match(['post', 'get'], '/update_otherLanguages/{id}', [MainCategoryController::class, 'updateotherLanguages'])->name('Update_MainCategory_OtherLanguages');
-        Route::match(['post', 'get'], '/Activate/{id}', [MainCategoryController::class, '_Directe_Activate'])->name('Activate');
+        Route::match(['post', 'get'], '/Activate/{id}', [MainCategoryController::class, 'Directe_Activate'])->name('Activate');
         Route::match(['post', 'get'], '/delete/{id}', [MainCategoryController::class, 'DeleteMainCategory'])->name('Delete_MainCategory');
     });
 
     ############### main category Routs ################
+    ############### Vendors Routs ################
+    Route::group(['prefix' => 'Vendors'], function () {
+        Route::get('/', [VendorController::class, 'IndexVendors'])->name('show_Vendors');
+        Route::get('/Create', [VendorController::class, 'CreateVendors'])->name('Create_Vendors');
+        Route::post('/Store', [VendorController::class, 'StoreVendors'])->name('Store_Vendors');
+        Route::match(['post', 'get'], '/edit/{id}', [VendorController::class, 'EditVendors'])->name('Edit_Vendors');
+        Route::match(['post', 'get'], '/update/{id}', [VendorController::class, 'UpdateVendors'])->name('Update_Vendors');
+        Route::match(['post', 'get'], '/update_otherLanguages/{id}', [VendorController::class, 'updateotherLanguages'])->name('Update_Vendors_OtherLanguages');
+        Route::match(['post', 'get'], '/delete/{id}', [VendorController::class, 'DeleteVendors'])->name('Delete_Vendors');
+    });
+
+    ############### Vendors Routs ################
 });
 
 Route::get('/login', [AdminController::class, 'Login'])->name('admin_login');

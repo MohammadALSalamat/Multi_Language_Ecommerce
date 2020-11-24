@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.Admin.main_desgin')
 
 @section('content')
     <div class="app-content content">
@@ -9,7 +9,7 @@
                     <div class="row breadcrumbs-top">
                         <div class="breadcrumb-wrapper col-12">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">الرئيسية</a>
+                                <li class="breadcrumb-item"><a href="{{route('show_Vendors')}}">الرئيسية</a>
                                 </li>
                                 <li class="breadcrumb-item active"> ألمتاجر
                                 </li>

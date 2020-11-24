@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.Admin.main_desgin')
 
 @section('content')
 
@@ -11,7 +11,7 @@
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="">الرئيسية </a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="{{route('admin.vendors')}}">المتاجر </a>
+                                <li class="breadcrumb-item"><a href="{{route('show_Vendors')}}">المتاجر </a>
                                 </li>
                                 <li class="breadcrumb-item active">إضافة متجر
                                 </li>
@@ -43,7 +43,7 @@
                                 @include('admin.includes.alerts.errors')
                                 <div class="card-content collapse show">
                                     <div class="card-body">
-                                        <form class="form" action="{{route('admin.vendors.store')}}"
+                                        <form class="form" action="{{route('Store_Vendors')}}"
                                               method="POST"
                                               enctype="multipart/form-data">
                                             <input type="hidden"  value="" id="latitude" name="latitude">
