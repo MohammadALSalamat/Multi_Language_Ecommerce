@@ -142,10 +142,8 @@
                                                                 <span class="text-danger"> {{$message}}</span>
                                                                 @enderror
                                                             </div>
-
                                                     </div>
                                                 </div>
-
 
                                                 <di class="row">
                                                     <div class="col-md-6 ">
@@ -418,6 +416,6 @@
         }
 
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDKZAuxH9xTzD2DLY2nKSPKrgRi2_y0ejs&libraries=places&callback=initAutocomplete&language=ar&region=EG
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDKZAuxH9xTzD2DLY2nKSPKrgRi2_y0ejs&libraries=places&callback=initAutocomplete&language=ar&region=UAE
          async defer"></script>
     @stop

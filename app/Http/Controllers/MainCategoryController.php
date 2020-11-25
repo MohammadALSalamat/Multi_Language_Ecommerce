@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Config;
-use GuzzleHttp\Exception\ClientException;
 use App\Http\Requests\MainCategoryValidation;
 
 class MainCategoryController extends Controller

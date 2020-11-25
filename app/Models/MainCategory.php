@@ -43,6 +43,6 @@ class MainCategory extends Model
 
     public function vendors()
     {
-        return $this->hasMany([Vendor::class], 'category_id', 'id');
+        return $this->hasMany("App\Models\Vendor", 'category_id', 'id');
     }
 }

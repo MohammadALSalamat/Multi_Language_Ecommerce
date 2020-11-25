@@ -62,16 +62,21 @@
                                                     <tr>
                                                         <td>{{$vendor -> name}}</td>
                                                         <td><img style="width: 150px; height: 100px;"
-                                                                 src="{{$vendor -> 	logo}}"></td>
+                                                                 src="{{asset('assets/images/vendors/'.$vendor->logo)}}"></td>
 
                                                         <td>{{$vendor -> mobile}}</td>
-                                                        <td> {{$vendor -> 	category -> name}}</td>
-
-                                                        <td> {{$vendor -> getActive()}}</td>
+                                                        <td> {{$vendor -> category-> name}}</td>
+                                                        <td>
+                                                            @if ($vendor -> active == 1)
+                                                            <span style="color: green"> مفعل</span>
+                                                            @else
+                                                            <span style="color: red">غير مفعل</span>
+                                                            @endif
+                                                        </td>
                                                         <td>
                                                             <div class="btn-group" role="group"
                                                                  aria-label="Basic example">
-                                                                <a href="{{route('admin.vendors.edit',$vendor -> id)}}"
+                                                                <a href="{{route('Edit_Vendors',$vendor -> id)}}"
                                                                    class="btn btn-outline-primary btn-min-width box-shadow-3 mr-1 mb-1">تعديل</a>
 
 
@@ -80,7 +85,13 @@
 
 
                                                                 <a href=""
-                                                                   class="btn btn-outline-warning btn-min-width box-shadow-3 mr-1 mb-1">تفعيل</a>
+                                                                   class="btn btn-outline-warning btn-min-width box-shadow-3 mr-1 mb-1">
+                                                                   @if ($vendor -> active == 1)
+                                                                   <span > الغاء التفعيل</span>
+                                                                   @else
+                                                                   <span >تفعيل</span>
+                                                                   @endif
+                                                                </a>
 
 
                                                             </div>
