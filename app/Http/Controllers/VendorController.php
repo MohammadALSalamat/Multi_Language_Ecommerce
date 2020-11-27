@@ -7,6 +7,8 @@ use App\Models\MainCategory;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use App\Http\Requests\VendorsValidation;
+use App\Notifications\vendorCreated;
+use Illuminate\Support\Facades\Notification;
 
 class VendorController extends Controller
 {
@@ -64,10 +66,22 @@ class VendorController extends Controller
         $vendors->address = $data['address'];
         $vendors->category_id = $data['category_id'];
         $vendors->mobile = $data['mobile'];
+        $vendors->email = $data['email'];
         $vendors->active = $status;
         $vendors->logo = $filename;
         $vendors->save();
 
+        Notification::send($vendors, new vendorCreated($vendors));
         return redirect()->route('show_Vendors')->with('error', 'تم اضافة المتجر بنجاح');
+    }
+
+    public function EditVendors($id)
+    {
+        $translation_lang = config('app.locale');
+        #edit vendor file
+        $vendor = Vendor::with('category')->where('id', $id)->first();
+        $categories = MainCategory::where(['translation_lang' => $translation_lang, 'active' => 1])->get();
+
+        return view('admin.vendors.edit', compact('vendor', 'categories'));
     }
 }

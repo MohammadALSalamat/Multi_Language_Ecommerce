@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.Admin.main_desgin')
 
 @section('content')
 
@@ -11,7 +11,7 @@
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="">الرئيسية </a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="{{route('admin.vendors')}}">المتاجر </a>
+                                <li class="breadcrumb-item"><a href="{{route('show_Vendors')}}">المتاجر </a>
                                 </li>
                                 <li class="breadcrumb-item active">تعديل متجر
                                 </li>
@@ -43,7 +43,7 @@
                                 @include('admin.includes.alerts.errors')
                                 <div class="card-content collapse show">
                                     <div class="card-body">
-                                        <form class="form" action="{{route('admin.vendors.update',$vendor -> id)}}"
+                                        <form class="form" action="{{route('Update_Vendors',$vendor -> id)}}"
                                               method="POST"
                                               enctype="multipart/form-data">
                                             @csrf
@@ -56,7 +56,7 @@
                                             <div class="form-group">
                                                 <div class="text-center">
                                                     <img
-                                                        src="{{$vendor  -> logo}}"
+                                                    src="{{asset('assets/images/vendors/'.$vendor->logo)}}"
                                                         class="rounded-circle  height-250" alt="صورة القسم  ">
                                                 </div>
                                             </div>
@@ -66,6 +66,7 @@
                                                 <label> لوجو التجار </label>
                                                 <label id="projectinput7" class="file center-block">
                                                     <input type="file" id="file" name="logo">
+                                                    <input type="hidden" name="current_logo">
                                                     <span class="file-custom"></span>
                                                 </label>
                                                 @error('logo')
@@ -135,7 +136,7 @@
                                                             <input type="text" id="email"
                                                                    class="form-control"
                                                                    placeholder="  " name="email"
-                                                                   value="{{$vendor -> email}}">
+                                                                   value="{{$vendor-> email}}">
 
                                                             @error("email")
                                                             <span class="text-danger"> {{$message}}</span>
@@ -146,26 +147,8 @@
 
                                                 </div>
 
-
                                                 <div class="row">
-                                                    <div class="class col-12">
-                                                        <div class="form-group">
-                                                            <label for="projectinput1">كلمة المرور  </label>
-                                                            <input type="password" id="password"
-                                                                   class="form-control"
-                                                                   placeholder="  " name="password">
-
-                                                            @error("password")
-                                                            <span class="text-danger"> {{$message}}</span>
-                                                            @enderror
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-
-
-                                                <di class="row">
-                                                    <div class="col-md-6 ">
+                                                    <div class="col-md-12 ">
                                                         <div class="form-group">
                                                             <label for="projectinput1"> العنوان  </label>
                                                             <input type="text" id="pac-input"
@@ -173,14 +156,12 @@
                                                                    placeholder="  " name="address"
                                                                    value="{{$vendor -> address}}"
                                                             >
-
                                                             @error("address")
                                                             <span class="text-danger"> {{$message}}</span>
                                                             @enderror
                                                         </div>
                                                     </div>
-
-                                                </di>
+                                                </div>
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group mt-1">
