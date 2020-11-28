@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateVendorsValidation;
 use App\Models\Vendor;
 use App\Models\MainCategory;
-use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use App\Http\Requests\VendorsValidation;
 use App\Notifications\vendorCreated;
@@ -77,11 +77,93 @@ class VendorController extends Controller
 
     public function EditVendors($id)
     {
+        $Check_id = Vendor::find($id);
+        if (!$Check_id) {
+            return redirect()->back()->with('error', 'هذا القسم غير موجوده');
+        }
         $translation_lang = config('app.locale');
         #edit vendor file
         $vendor = Vendor::with('category')->where('id', $id)->first();
         $categories = MainCategory::where(['translation_lang' => $translation_lang, 'active' => 1])->get();
 
         return view('admin.vendors.edit', compact('vendor', 'categories'));
+    }
+
+    public function UpdateVendors(UpdateVendorsValidation $request, $id)
+    {
+        $Check_id = Vendor::find($id);
+        if (!$Check_id) {
+            return redirect()->back()->with('error', 'هذا القسم غير موجوده');
+        }
+        #upadte the vendors
+        $data = $request->all();
+        // validation logo
+        if (!empty($data['logo'])) {
+            if ($request->hasFile('logo')) {
+                $logo_temp = $request->file('logo');
+                if ($logo_temp->isValid()) {
+                    $extention = $logo_temp->clientExtension();
+                    $filename = rand(1, 10000000) . '.' . $extention;
+                    $image_path = 'assets/images/vendors/' . $filename;
+                    Image::make($logo_temp)->save($image_path);
+                }
+            } else {
+                return redirect()->back()->with('error', "الصورة خاطئة اعد المحاولة");
+            }
+        } else {
+            $filename = $data['current_logo'];
+        }
+
+        // validation other inputs
+
+        if (empty($data['name']) || empty($data['mobile']) || empty($data['email'])) {
+            return  redirect()->back()->with('error', 'كافة الحقول مطلوبة الرجاء ملئ جميع الحقول');
+        }
+        if (empty($data['active'])) {
+            $status = 0;
+        } else {
+            $status = 1;
+        }
+
+        Vendor::where('id', $id)->update([
+            'logo' => $filename,
+            'name' => $data['name'],
+            'category_id' => $data['category_id'],
+            'mobile' => $data['mobile'],
+            'email' => $data['email'],
+            'address' => $data['address'],
+            'active' => $status,
+        ]);
+        return redirect()->route('show_Vendors')->with('success', "تم التعديل بنجاح");
+    }
+
+    // direcate activate
+    public function Directe_Activate($id)
+    {
+        $active = Vendor::where('id', $id)->first();
+
+        if ($active->active == 1) {
+
+            Vendor::where('id', $id)->update([
+                'active' => 0
+            ]);
+            return redirect()->route('show_Vendors')->with('success', "تم الغاء التفغيل بنجاح");
+        } else {
+            Vendor::where('id', $id)->update([
+                'active' => 1
+            ]);
+            return redirect()->route('show_Vendors')->with('success', "تم  التفغيل بنجاح");
+        };
+    }
+
+    // delete vendors
+    public function DeleteVendors($id)
+    {
+        $Delet_category = Vendor::find($id);
+        if (!$Delet_category) {
+            return redirect()->back()->with('error', 'هذا القسم غير موجوده');
+        }
+        Vendor::where('id', $id)->delete();
+        return redirect()->route('show_Vendors')->with('success', 'تم الحذف بنجاح');
     }
 }

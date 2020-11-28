@@ -66,7 +66,7 @@
                                                 <label> لوجو التجار </label>
                                                 <label id="projectinput7" class="file center-block">
                                                     <input type="file" id="file" name="logo">
-                                                    <input type="hidden" name="current_logo">
+                                                    <input type="hidden" name="current_logo" value ="{{ $vendor->logo }}">
                                                     <span class="file-custom"></span>
                                                 </label>
                                                 @error('logo')

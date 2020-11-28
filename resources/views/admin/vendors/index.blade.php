@@ -65,7 +65,11 @@
                                                                  src="{{asset('assets/images/vendors/'.$vendor->logo)}}"></td>
 
                                                         <td>{{$vendor -> mobile}}</td>
-                                                        <td> {{$vendor -> category-> name}}</td>
+                                                        <td>
+                                                            @isset($vendor->category->name)
+                                                            {{$vendor -> category-> name}}
+                                                        @endisset
+                                                    </td>
                                                         <td>
                                                             @if ($vendor -> active == 1)
                                                             <span style="color: green"> مفعل</span>
@@ -80,11 +84,11 @@
                                                                    class="btn btn-outline-primary btn-min-width box-shadow-3 mr-1 mb-1">تعديل</a>
 
 
-                                                                <a href=""
+                                                                <a href="{{ route('Delete_Vendors',$vendor->id) }}"
                                                                    class="btn btn-outline-danger btn-min-width box-shadow-3 mr-1 mb-1">حذف</a>
 
 
-                                                                <a href=""
+                                                                <a href="{{ route('Activate',$vendor->id) }}"
                                                                    class="btn btn-outline-warning btn-min-width box-shadow-3 mr-1 mb-1">
                                                                    @if ($vendor -> active == 1)
                                                                    <span > الغاء التفعيل</span>

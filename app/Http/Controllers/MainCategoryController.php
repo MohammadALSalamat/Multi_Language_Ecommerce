@@ -162,6 +162,7 @@ class MainCategoryController extends Controller
     public function Directe_Activate($id)
     {
         $active = MainCategory::where('id', $id)->first();
+
         if ($active->active == 1) {
 
             MainCategory::where('id', $id)->update([
@@ -203,9 +204,15 @@ class MainCategoryController extends Controller
         $Delet_category = MainCategory::find($id);
         if (!$Delet_category) {
             return redirect()->back()->with('error', 'هذه اللغة غير موجوده');
-        } else {
-            MainCategory::where('id', $id)->delete();
-            return redirect()->route('show_MainCategory')->with('success', 'تم الحذف بنجاح');
         }
+        $mainCategory = MainCategory::find($id);
+        $vendor = $mainCategory->vendors();
+        if (isset($vendor) && $vendor->count() > 0) {
+            return redirect()->back()->with('error', 'هذا القسم لا يمكن حذفه');
+        }
+
+        unlink('assets/images/maincategories/' . $Delet_category->photo); // delete the image from the folder it self
+        MainCategory::where('id', $id)->delete();
+        return redirect()->route('show_MainCategory')->with('success', 'تم الحذف بنجاح');
     }
 }
