@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Observers\MainCategoryObserver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -29,6 +30,13 @@ class MainCategory extends Model
         'updated_at',
     ];
 
+
+
+    public static function boot()
+    {
+        parent::boot();
+        MainCategory::observe(MainCategoryObserver::class);
+    }
     // make scope to call active product when it is == 1
 
     public function scopeActive($query)

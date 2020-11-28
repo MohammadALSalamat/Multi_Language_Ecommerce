@@ -168,6 +168,7 @@ class MainCategoryController extends Controller
             MainCategory::where('id', $id)->update([
                 'active' => 0
             ]);
+
             return redirect()->route('show_MainCategory')->with('success', "تم الغاء التفغيل بنجاح");
         } else {
             MainCategory::where('id', $id)->update([
@@ -212,6 +213,7 @@ class MainCategoryController extends Controller
         }
 
         unlink('assets/images/maincategories/' . $Delet_category->photo); // delete the image from the folder it self
+        $mainCategory->OtherLanguges()->delete(); // delete all languages that related to this item
         MainCategory::where('id', $id)->delete();
         return redirect()->route('show_MainCategory')->with('success', 'تم الحذف بنجاح');
     }
