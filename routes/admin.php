@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\LanguagesController;
+use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\MainCategoryController;
 
 
@@ -49,6 +50,23 @@ Route::group(['middleware' => ['admin']], function () {
     });
 
     ############### main category Routs ################
+
+
+    ############### Sub Category Routs ################
+    Route::group(['prefix' => 'SubCategory'], function () {
+        Route::get('/', [SubCategoryController::class, 'IndexSubCategory'])->name('show_SubCategory');
+        Route::get('/Create', [SubCategoryController::class, 'CreateSubCategory'])->name('Create_SubCategory');
+        Route::post('/Store', [SubCategoryController::class, 'StoreSubCategory'])->name('Store_SubCategory');
+        Route::match(['post', 'get'], '/edit/{id}', [SubCategoryController::class, 'EditSubCategory'])->name('Edit_SubCategory');
+        Route::match(['post', 'get'], '/update/{id}', [SubCategoryController::class, 'UpdateSubCategory'])->name('Update_SubCategory');
+        Route::match(['post', 'get'], '/update_otherLanguages/{id}', [SubCategoryController::class, 'updateotherLanguages'])->name('Update_SubCategory_OtherLanguages');
+        Route::match(['post', 'get'], '/Activate/{id}', [SubCategoryController::class, 'Directe_Activate'])->name('Activate_SubCategory');
+        Route::match(['post', 'get'], '/delete/{id}', [SubCategoryController::class, 'DeleteSubCategory'])->name('Delete_SubCategory');
+    });
+
+    ############### Sub category Routs ################
+
+
     ############### Vendors Routs ################
     Route::group(['prefix' => 'Vendors'], function () {
         Route::get('/', [VendorController::class, 'IndexVendors'])->name('show_Vendors');
